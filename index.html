@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>React Tutorial</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+
+		<style type="text/css">
+			body{
+				padding: 15px;
+			}
+		</style>
+    </head>
+    <body>
+    	<h3>Reactjs Tutorial</h3>
+    	<a href="http://reactfordesigners.com/labs/reactjs-introduction-for-people-who-know-just-enough-jquery-to-get-by/?utm_source=javascriptweekly&utm_medium=email">		Source - reactfordesigners.com
+    	</a>
+
+    	<div id="tweet"></div>	
+
+        <!-- // <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+        <!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script> -->
+
+        <script src="https://fb.me/react-0.13.3.js"></script>
+        <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+
+        <!-- // <script type="text/javascript" src="js/script.js"></script> -->
+
+        <script type="text/jsx">
+        	var TweetBox = React.createClass({
+        		getInitialState: function() {
+        			return {
+        				text: ""
+        			}
+        		},
+    			handleChange: function(event) {
+					this.setState({ text: event.target.value })
+    			},
+			  	render: function() {
+				    return (
+				      <div className="well clearfix">
+				        <textarea className="form-control" onChange={this.handleChange}></textarea>
+				        <br/>
+				        <button className="btn btn-primary pull-right" disabled={this.state.text.length === 0}>Tweet</button>
+
+				      </div>
+				    );
+			  }
+			});
+
+			React.render(
+			  <TweetBox />,
+			  document.getElementById('tweet')
+			);
+        </script>
+    </body>
+</html>
