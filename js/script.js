@@ -1,18 +1,65 @@
 var TweetBox = React.createClass({
 	getInitialState: function() {
 		return {
-			text: ""
+			text: "",
+			photoAdded: false
 		}
 	},
 	handleChange: function(event) {
 		this.setState({ text: event.target.value })
 	},
+	togglePhoto: function(event) {
+	  this.setState({ photoAdded: !this.state.photoAdded });
+	},
+	remainingCharacters: function() {
+	  if (this.state.photoAdded) {
+	    return 140 - 23 - this.state.text.length;
+	  } else {
+	    return 140 - this.state.text.length;
+	  }
+	},
+  overflowAlert: function() {
+    if (this.remainingCharacters() < 0) {
+    	if (this.state.photoAdded) {
+			  var beforeOverflowText = this.state.text.substring(140 - 23 - 10, 140 - 23);
+			  var overflowText = this.state.text.substring(140 - 23);
+			} else {
+			  var beforeOverflowText = this.state.text.substring(140 - 10, 140);
+			  var overflowText = this.state.text.substring(140);
+			}
+      
+      return (
+        <div className="alert alert-warning">
+          <strong>Oops! Too Long:</strong>
+          &nbsp;...{beforeOverflowText}
+      		<strong className="bg-danger">{overflowText}</strong>
+        </div>
+      );
+    } else {
+      return "";
+    }
+  },
   	render: function() {
+  		if(this.remainingCharacters() <= 0){
+  			var charCountClass = "charCount text-danger";	
+  		} else {
+  			var charCountClass = "charCount";
+  		}
+
 	    return (
 	      <div className="well clearfix">
-	        <textarea className="form-control" onChange={this.handleChange}></textarea>
+          { this.overflowAlert() }
+	        <textarea className="form-control" 
+                    onChange={this.handleChange}></textarea>
 	        <br/>
-	        <button className="btn btn-primary pull-right" disabled={this.state.text.length === 0}>Tweet</button>
+        	Remaning characters: 
+        	<span className={charCountClass}> { this.remainingCharacters() }</span>
+	        <button className="btn btn-primary pull-right" 
+            disabled={this.remainingCharacters() === 140}>Tweet</button>
+	        <button className="btn btn-default pull-right" 
+	        	onClick={this.togglePhoto}>
+			  {this.state.photoAdded ? "✓ Photo Added" : "Add Photo" }
+			</button>
 
 	      </div>
 	    );
@@ -25,17 +72,3 @@ React.render(
 );
 
 
-// // Initially disable the button
-// $("button").prop("disabled", true);
-
-// // When the value of the text area changes...
-// $("textarea").on("input", function() {
-//   // If there's at least one character...
-//   if ($(this).val().length > 0) {
-//     // Enable the button.
-//     $("button").prop("disabled", false);
-//   } else {
-//     // Else, disable the button.
-//     $("button").prop("disabled", true);
-//   }
-// });
